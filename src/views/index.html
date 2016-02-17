@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="EncourageMe" ng-controller="MainController">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>{{title}}</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <!-- bower:css -->
+        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
+        <!-- endbower -->
+        <!-- bower:js -->
+        <script src="/lib/jquery/dist/jquery.js"></script>
+        <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <!-- endbower -->
+        <!-- inject:css -->
+        <link rel="stylesheet" href="/css/styles.css">
+        <!-- endinject -->
+        <!-- inject:js -->
+        <script src="/js/angular.min.js"></script>
+        <script src="/src/controllers/MainController.js"></script>
+        <!-- endinject -->
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="navbar-header">
+        <a class="navbar-brand" rel="home" href="/">{{title}}</a>
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		</button>
+	</div>
+	<div class="collapse navbar-collapse">
+		<ul class="nav navbar-nav" >
+			<li><a href="profiles">Profiles</a></li>
+			<li><a href="#">{{message}}</a></li>
+			<li><a href="#">Link</a></li>
+			<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+                <li class="divider"></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+		</ul>
+		<div class="col-sm-3 col-md-3 pull-right">
+          <form class="navbar-form" role="search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+          </form>
+		</div>
+	</div>
+</nav>
+
+<div class="container-fluid">
+  
+
+  <!--left-->
+  <div class="col-sm-3">
+      <h2></h2>
+    	<div class="panel panel-default" ng-repeat="comment in recentComments | limitTo:10">
+         	<div class="panel-heading">{{comment.ideaName}}</div>
+         	<div class="panel-body">{{comment.message}}</div>
+        </div>
+  </div><!--/left-->
+  
+  <!--center-->
+  <div class="col-sm-6" ng-show="encouragements">
+    <h2 class="text-center">Encouragement Requests</h2>
+    <div class="row" ng-repeat="encouragement in encouragements" >
+      <div class="col-xs-12">
+        <h2>{{encouragement.ideaName}}</h2>
+        <p>{{encouragement.idea}}</p>
+        <ul class="list-inline"><li><a href="#">{{encouragement.timeSince}} days ago</a></li><li><a href="#"><i class="glyphicon glyphicon-comment"></i> View Comments</a></li></ul>
+      </div>
+    </div>
+    <hr>
+      <div class="row">
+      <div class="col-xs-12 text-center">
+        <button class="btn btn-default" ng-click="populateEncouragements()"
+                ng-hide="allEncouragementsLoaded">Load More...</button>
+
+      </div>
+    </div>
+    <hr>
+  </div><!--/center-->
+
+  <!--right-->
+  <div class="col-sm-3">
+      <h2></h2>
+    	<div class="panel panel-default" ng-repeat="comment in recentComments | limitTo:20" ng-if="$index >= 10">
+         	<div class="panel-heading">{{comment.ideaName}}</div>
+         	<div class="panel-body">{{comment.message}}</div>
+        </div>
+  </div><!--/right-->
+    
+  <hr>
+</div><!--/container-fluid-->
+	<!-- script references -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+	</body>
+</html>
