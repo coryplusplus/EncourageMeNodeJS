@@ -1,6 +1,6 @@
 (function () {
 
-    var app = angular.module("EncourageMe", []);
+    var app = angular.module("EncourageMe");
 
 
 
@@ -13,13 +13,15 @@
         var base_url = "https://api.encourageme.cipricoresolutions.com:8443/encourageMe/webapi/v1/"
         var profiles_url = base_url + "profiles";
         var encouragements_url = base_url + "ideas/?start=" + eStart + "&size=" + eSize;
-        $scope.encouragements = []
-        $scope.recentComments = []
+        $scope.encouragements = [];
+        $scope.recentComments = [];
+        $scope.comments = [];
         $scope.title = "Encourage-Me"
         $scope.repoSortOrder = "-stargazers_count";
         $scope.message = "This is a blast";
 
         $scope.error = null
+        $scope.objectId = window.objectId
 
         var onReposComplete = function onReposComplete(response) {
             $scope.repos = response.data;
@@ -75,7 +77,6 @@
                         $scope.allEncouragementsLoaded = true
                     angular.forEach(response.data, function (data) {
                         var dates = data["created"].split("T");
-                        console.log(dates[0])
                         var date = new Date(dates[0]);
                         var now = new Date();
                         var timeDiff = Math.abs(now.getTime() - date.getTime());
@@ -93,6 +94,19 @@
 
         }
 
+        $scope.populateComments = function (id) {
+            encouragements_url = base_url + "ideas/" + id + "/comments";
+            $scope.comments = [];
+            return $http.get(encouragements_url)
+                .then(function (response) {
+                    angular.forEach(response.data, function (data) {
+                        $scope.comments.push(data);
+                    });
+
+                });
+
+        }
+
         function populateRecentComments(objectId, ideaName) {
             encouragements_url = base_url + "ideas/" + objectId + "/comments?start=" + cStart + "&size=" + cSize;
             return $http.get(encouragements_url)
@@ -100,7 +114,7 @@
                     if (response.data.length == 0)
                         $scope.allEncouragementsLoaded = true
                     angular.forEach(response.data, function (data) {
-                        data["ideaName"] =ideaName;
+                        data["ideaName"] = ideaName;
                         $scope.recentComments.push(data);
                     });
 
